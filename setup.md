@@ -71,7 +71,28 @@ Record only what is needed to find and use installed capabilities:
 
 Leave detailed behavior in the Skills themselves and pending setup items in the final report. Do not duplicate Task Router instructions already written by its installer. Describe only capabilities that are actually installed.
 
-## 4. Verification and Report
+## 4. Global config.toml
+
+Locate the global `config.toml` under the effective `CODEX_HOME` (normally `~/.codex`). Back up an existing file, then merge the following requested settings into its top-level `[features]` and `[agents]` tables. Create the file or tables if missing. Update these keys in place, preserving unrelated settings, provider credentials, profiles, and agent role definitions; do not append duplicate TOML tables or keys.
+
+```toml
+[features]
+memories = true
+prevent_idle_sleep = true
+multi_agent = true
+multi_agent_v2 = false
+
+[agents]
+max_concurrent_threads_per_session = 30
+default_subagent_model = "gpt-6-luna"
+default_subagent_reasoning_effort = "medium"
+```
+
+**Windows only:** also set `daemon_auto_start = false` inside `[features]`. On macOS and Linux, do not add or change that key as part of this setup.
+
+These values are explicitly requested defaults and should replace existing values for the listed keys. Keep `gpt-6-luna` and `medium` as specified. Check support in the installed Codex version and report unsupported settings or unavailable models instead of silently substituting alternatives. If an active profile or Task Router role overrides these defaults, report the effective difference without rewriting its role configuration.
+
+## 5. Verification and Report
 
 Verify the following after installation:
 
@@ -80,5 +101,6 @@ Verify the following after installation:
 3. Task Router's installation checks pass. Distinguish static configuration checks, host support, and live model verification; do not make paid model calls for this check.
 4. The meeting preparation helper processes a temporary text fixture locally without credentials or media uploads.
 5. Global instructions are in the effective location, remain concise, preserve existing content, and contain no duplicate capability entries.
+6. Global `config.toml` parses successfully, contains the requested settings without duplicate tables or keys, and preserves unrelated configuration. Confirm the Windows-only setting was applied only on Windows. Distinguish saved values from settings actually supported and effective in the current host.
 
 Report each item as newly installed, reused, pending configuration, or failed. Include key paths, sources, and installed versions or commit IDs. Explain any required new session, reload, or profile activation. For failures, give the specific cause and next step; do not report partial completion as full success.
