@@ -1,0 +1,54 @@
+version = 1
+profile = "task-routing"
+max_concurrent = 30
+max_coding_repairs = 5
+
+# Matches the installed Pi role map. Check real model/thinking availability before installation.
+# Omitted candidate providers inherit the active parent provider.
+# This recommended router startup model does not override pi/settings.json.
+[orchestrator]
+model = "gpt-6-astra"
+effort = "medium"
+
+[roles.coding]
+model = "deepseek-flash"
+effort = "max"
+when = "Default implementation with clear boundaries; use a stronger candidate for complex judgment or cross-module coordination"
+options = [
+  { model = "deepseek-flash", effort = "high", when = "Low-risk mechanical changes with clear boundaries" },
+  { model = "gpt-6.1-sol", effort = "xhigh", when = "Extremely complex implementation, or tasks explicitly identified as exceeding the capabilities of default candidates." }
+]
+
+[roles.search]
+model = "gpt-6.1-sol"
+effort = "high"
+when = "Open-ended questions, multi-round online research, multi-source comparison, conflict checking, or evidence coverage that needs judgment; not every task that touches the network"
+options = [
+  { model = "deepseek-flash", effort = "high", when = "Precise file, symbol, or text matching and limited local repository navigation; return paths, line numbers, raw text, and short factual descriptions without cross-module causal analysis or multi-source synthesis" },
+  { model = "gpt-6.1-sol", effort = "medium", when = "Tracing a call chain or data flow for a well-defined question, or targeted checking against official documentation on one topic" }
+]
+
+[roles.verify]
+model = "gpt-6.1-sol"
+effort = "medium"
+when = "Verify routine behavior changes against the original acceptance criteria, related tests, and regression checks"
+options = [
+  { model = "deepseek-flash", effort = "high", when = "Independent checks of mechanical changes with explicit, directly checkable criteria; exclude changes affecting behavior, permissions, concurrency, or data integrity" },
+  { model = "gpt-6.1-sol", effort = "high", when = "High-risk subtle behavior such as permissions, security, concurrency, data consistency, or cross-component integration and test sufficiency" }
+]
+
+[roles.reasoning]
+model = "gpt-6-astra"
+effort = "xhigh"
+when = "Exceptionally difficult problems or consequential trade-offs requiring the strongest available judgment"
+options = [
+  { model = "gpt-6.1-sol", effort = "xhigh", when = "Problems requiring thorough analysis, careful examination of evidence, and comparison of possible explanations or approaches" }
+]
+
+[roles.general]
+model = "gpt-6.1-sol"
+effort = "medium"
+when = "Larger non-coding analysis, summaries, and structured outputs"
+options = [
+  { model = "gpt-6-astra", effort = "high", when = "Longer or subtly detailed material where the default candidate may be insufficient" }
+]

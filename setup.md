@@ -35,7 +35,7 @@ Respect `CODEX_HOME` and existing global Skill locations. Avoid registering the 
 
 | Project / Skill | Source | Installation Notes |
 | --- | --- | --- |
-| codex-task-router | https://github.com/gfgghgftgffg/codex-task-router | Use the native installer for roles, profile, global entry, and the `task-routing` Skill. Copying the Skill alone is insufficient. |
+| task-router | https://github.com/gfgghgftgffg/task-router | Use the Codex native installer for roles, profile, global entry, and the `task-routing` Skill. Copying the Skill alone is insufficient; do not install the Pi bundle into Codex home. |
 | meeting-summary-html | https://github.com/gfgghgftgffg/meeting-summary-html | Include its scripts and references. Run Python helpers through the `codex` environment. |
 | shuorenhua | https://github.com/MrGeDiao/shuorenhua | Follow its Codex installation instructions and include the full Skill and reference files. |
 | humanizer | https://github.com/blader/humanizer | Install the complete Skill and its referenced resources. |
@@ -45,7 +45,13 @@ Respect `CODEX_HOME` and existing global Skill locations. Avoid registering the 
 
 ### Task Router
 
-Check the required Node.js version and dependencies. Follow the upstream check, preview, and installation workflow, retaining its backup and conflict protections.
+The project is now named `task-router` (formerly `codex-task-router`). Use the new repository URL above. Existing stable checkouts may retain their directory name; verify and update their Git remote without discarding local routing configuration. The Codex profile and Skill remain named `task-routing`; do not rename them to match the repository.
+
+Read the current README and Codex configuration reference. From the stable source checkout, use `npm ci`, then `node cli.mjs doctor`, `node cli.mjs install` to preview, and `node cli.mjs install --apply` to apply. Codex is the default host; use the verified effective Codex home and stable source configuration when passing `--codex-home` or `--config`. Never apply a Pi bundle to this home.
+
+Check the required Node.js version and dependencies. Follow the upstream check, preview, and installation workflow, retaining its backup and conflict protections. The current installer migrates the old `codex-task-router:start/end` AGENTS block in place to `task-router:start/end`. Keep exactly one router block, preserve the manifest and unrelated instructions, and do not remove protection records to bypass an update conflict.
+
+The current Codex backend requires V1 child communication: keep `multi_agent = true` and `multi_agent_v2 = false` as requested below. If `model_catalog_json` points to a custom catalog, also verify that the orchestrator and every selectable child model declare `"multi_agent_version": "v1"`; the global switch does not override an explicit catalog V2 entry. Preserve other catalog metadata and report unsupported host versions. The router's static checks alone do not establish V1 communication compatibility.
 
 Verify that the configured models, providers, and reasoning levels are compatible with this Codex installation. Do not assume the user has access to upstream default models or silently replace existing model preferences. Reuse compatible settings when available; otherwise complete independent setup steps and report the model information still needed.
 

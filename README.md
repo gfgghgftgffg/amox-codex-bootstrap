@@ -1,8 +1,8 @@
 # amox-codex-bootstrap
 
-Personal Codex setup instructions for Windows, macOS, and Linux. Give Codex [setup.md](setup.md) and let it check the computer, install missing dependencies, and configure your tools and Skills.
+Personal Codex and Pi setup instructions for Windows, macOS, and Linux. Give the corresponding setup file to your agent and let it check the computer, install missing dependencies, and configure your tools and Skills.
 
-## Usage
+## Codex Usage
 
 Install Codex first, then send it this prompt:
 
@@ -14,11 +14,11 @@ verify the results, and report anything that still needs my input.
 
 You can also download or clone this repository and ask Codex to follow the local `setup.md`.
 
-## Included
+## Codex Included
 
 - Conda detection and Miniforge installation when needed.
 - A shared `codex` environment for Python dependencies, including `pypdf`.
-- Task routing: `codex-task-router`.
+- Task routing: [task-router](https://github.com/gfgghgftgffg/task-router) (formerly `codex-task-router`); the profile and Skill remain `task-routing`.
 - Meeting summaries: `meeting-summary-html`.
 - Writing: `shuorenhua` and `humanizer`.
 - Frontend design: `taste-skill` (`design-taste-frontend`).
@@ -28,4 +28,30 @@ You can also download or clone this repository and ask Codex to follow the local
 
 Codex chooses platform-appropriate commands, reuses compatible installations, and preserves existing configuration. Task routing requires compatible models and profile activation; meeting audio/video transcription requires `DASHSCOPE_API_KEY`. Text-only meeting preparation needs no ASR key.
 
-Edit [setup.md](setup.md) to customize installation and [templates/AGENTS.md](templates/AGENTS.md) to change the shared global instructions.
+Edit [setup.md](setup.md) to customize Codex installation and [templates/AGENTS.md](templates/AGENTS.md) to change its shared global instructions.
+
+## Pi Usage
+
+Install Pi first, then send it this prompt:
+
+```text
+Read https://github.com/gfgghgftgffg/amox-codex-bootstrap/blob/main/setup_for_pi.md
+and follow it to configure this computer. Fetch the referenced pi/ files,
+complete the installation, verify the results, and report anything
+that still needs my input.
+```
+
+You can also clone this repository and ask Pi to follow the local [setup_for_pi.md](setup_for_pi.md). It uses the current personal Pi installation as its baseline, not a translation of Codex settings.
+
+## Pi Included
+
+- The shared `codex` Conda environment and `pypdf`.
+- All 11 installed Pi packages, including Sub2API, web access, subagents, Dynamic Workflows, todo, the question tool, and the current UI packages. Versions and sources are listed in [setup_for_pi.md](setup_for_pi.md).
+- Five user Skills: `design-taste-frontend`, `humanizer`, `meeting-summary-html`, `shuorenhua`, and Pi's generated `task-routing`.
+- Four package-bundled Skills: `pi-subagents`, `council-mode`, `workflow-authoring`, and `workflow-patterns`, without duplicate copies.
+- Fixed [Pi AGENTS.md](pi/AGENTS.md), [settings](pi/settings.json), router configuration, and non-sensitive plugin configurations in [pi/](pi/README.md).
+- The **complete custom ask-user-question guidance**, saved in [pi/rpiv-ask-user-question/config.json](pi/rpiv-ask-user-question/config.json), including design-tree clarification rounds and confirmation before implementation. Pi does not need separate grill-me/grilling Skills for this policy.
+
+Pi routing is opt-in through `/skill:task-routing` and uses pi-subagents' own workflow interface, not Dynamic Workflows. Model availability and relay/search credentials must be checked on the new computer; no credentials or session data are stored here. The RTK plugin can fall back without the optional RTK binary.
+
+Edit [setup_for_pi.md](setup_for_pi.md) for installation behavior and the files in [pi/](pi/README.md) for personal Pi configuration. Codex and Pi have separate instruction templates and installation targets; do not overwrite one with the other's bundle.
