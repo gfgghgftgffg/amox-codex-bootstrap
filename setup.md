@@ -61,15 +61,15 @@ Text input requires no ASR credentials. Audio/video transcription requires `DASH
 
 Locate the global instructions used by this Codex installation, normally under `CODEX_HOME` or `~/.codex`. Check whether `AGENTS.override.md` or host-specific settings affect which file is loaded.
 
-Keep global instructions as short as possible: a capability index with actual local paths, plus the Python environment convention. Do not add a managed block, start/end markers, installation history, or detailed workflows. Reuse or adjust existing entries instead of appending duplicates, preserving unrelated user instructions.
+Keep global instructions as short as possible. Do not list or describe Skills that Codex already discovers through its Skill catalog, or repeat their paths, triggers, or workflows. Do not add a bootstrap managed block, start/end markers, or installation history. Preserve unrelated user instructions and the Task Router installer's own entry.
 
-Record only what is needed to find and use installed capabilities:
+Record only environment conventions and entry points that are otherwise missing:
 
-- Python: use the `codex` Conda environment for Python execution and dependency installation; include the working Conda path. Note that `pypdf` is available for PDF processing.
-- Skills: one short entry per installed Skill giving its purpose and actual `SKILL.md` path. Cover meeting summaries (`meeting-summary-html`), natural Chinese rewriting (`shuorenhua`), removing AI-style writing patterns (`humanizer`), frontend design (`design-taste-frontend`), and user-requested plan questioning (`grilling` / `grill-me`).
+- Python: use the `codex` Conda environment for Python execution and dependency installation; include the working Conda and interpreter paths. Note briefly that `pypdf` is installed.
+- Skill exceptions: only if a required entry is not exposed by the host, add a minimal pointer. For example, if `grill-me` is not exposed, retain a single line for user-requested plan questioning with its local path and its `grilling` dependency. Do not add this exception when the host already provides the entry.
 - Task Router: its local entry or configuration path and the required profile activation, unless the upstream installer already supplies that information.
 
-Leave detailed behavior in the Skills themselves and pending setup items in the final report. Do not duplicate Task Router instructions already written by its installer. Describe only capabilities that are actually installed.
+Leave detailed behavior in the Skills themselves and installation status in the final report. Remove redundant Skill inventory entries previously added by this setup, while preserving user-specific instructions and necessary exceptions. Do not duplicate Task Router instructions already written by its installer.
 
 ## 4. Global config.toml
 
@@ -100,7 +100,7 @@ Verify the following after installation:
 2. All seven project / Skill entries and required resources are present, and `grill-me` can find `grilling`.
 3. Task Router's installation checks pass. Distinguish static configuration checks, host support, and live model verification; do not make paid model calls for this check.
 4. The meeting preparation helper processes a temporary text fixture locally without credentials or media uploads.
-5. Global instructions are in the effective location, remain concise, preserve existing content, and contain no duplicate capability entries.
+5. Global instructions are in the effective location, preserve user-specific content, and do not repeat automatically discovered Skills. Keep only the environment convention and necessary entry-point exceptions alongside the upstream Task Router entry.
 6. Global `config.toml` parses successfully, contains the requested settings without duplicate tables or keys, and preserves unrelated configuration. Confirm the Windows-only setting was applied only on Windows. Distinguish saved values from settings actually supported and effective in the current host.
 
 Report each item as newly installed, reused, pending configuration, or failed. Include key paths, sources, and installed versions or commit IDs. Explain any required new session, reload, or profile activation. For failures, give the specific cause and next step; do not report partial completion as full success.

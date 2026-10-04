@@ -23,7 +23,7 @@ You can also download or clone this repository and ask Codex to follow the local
 - Writing: `shuorenhua` and `humanizer`.
 - Frontend design: `taste-skill` (`design-taste-frontend`).
 - Plan questioning: `grilling` and `grill-me`.
-- Minimal global `AGENTS.md` entries for capabilities, local paths, and the Python environment.
+- Minimal global `AGENTS.md` instructions for the Python environment and necessary entry points, without repeating automatically discovered Skills.
 - Global `config.toml` settings for memories, idle-sleep prevention, and multi-agent defaults (30 concurrent threads, `gpt-6-luna`, `medium` effort), with the requested Windows-only daemon setting. See [setup.md](setup.md) for exact values.
 
 Codex chooses platform-appropriate commands, reuses compatible installations, and preserves existing configuration. Task routing requires compatible models and profile activation; meeting audio/video transcription requires `DASHSCOPE_API_KEY`. Text-only meeting preparation needs no ASR key.
