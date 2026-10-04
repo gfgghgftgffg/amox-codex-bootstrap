@@ -28,29 +28,26 @@ Check `pypdf` imports and install it only if missing. Reuse compatible Node.js a
 
 ## 2. Pi Packages
 
-Install these **11 user-level packages** through Pi's package manager, for example `pi install npm:pi-subagents`, without `--local`. Preserve their relative order when merging with existing package declarations; do not also copy their extension entrypoints into auto-discovery directories.
+Install these **9 user-level packages** through Pi's package manager, for example `pi install npm:pi-subagents`, without `--local`. Preserve their relative order when merging with existing package declarations; do not also copy their extension entrypoints into auto-discovery directories.
 
-The versions below are the inspected installation baseline, not claims that these are the latest versions or a mandatory lockfile. Reuse compatible versions or install current compatible releases after checking upstream changes. Report differences and unsupported configurations rather than silently dropping functionality.
+Install the latest releases of these packages; do not pin versions.
 
-| Package source | Observed version | Purpose / source |
-| --- | --- | --- |
-| `npm:@indexyz/pi-provider-sub2api` | 0.1.39 | Relay provider and model discovery; [source](https://github.com/5aaee9/pi-agent-extensions/tree/main/pi-provider-sub2api) |
-| `npm:@narumitw/pi-btw` | 0.61.1 | Side conversation; [source](https://github.com/narumiruna/pi-extensions/tree/main/packages/pi-btw) |
-| `npm:pi-open-tui` | 0.3.11 | Terminal interface; [source](https://github.com/OldSuns/pi-open-tui) |
-| `npm:pi-rtk-optimizer` | 0.9.0 | Command rewriting and output compaction; [source](https://github.com/MasuRii/pi-rtk-optimizer) |
-| `npm:@narumitw/pi-statusline` | 0.50.2 | Status line; [source](https://github.com/narumiruna/pi-extensions/tree/main/packages/pi-statusline) |
-| `npm:pi-web-access` | 0.35.0 | Search, fetch, source checking and stored content; [source](https://github.com/nicobailon/pi-web-access) |
-| `npm:pi-subagents` | 0.75.0 | Subagents, council and its own workflows; [source](https://github.com/nicobailon/pi-subagents) |
-| `npm:@juicesharp/rpiv-todo` | 2.12.0 | Task tracking; [source](https://github.com/juicesharp/rpiv-mono/tree/main/packages/rpiv-todo) |
-| `npm:@quintinshaw/pi-dynamic-workflows` | 3.13.1 | Separate Dynamic Workflows engine; [source](https://github.com/QuintinShaw/pi-dynamic-workflows) |
-| `npm:@juicesharp/rpiv-ask-user-question` | 2.12.0 | Structured clarification dialogs and custom guidance; [source](https://github.com/juicesharp/rpiv-mono/tree/main/packages/rpiv-ask-user-question) |
-| `npm:@heyhuynhgiabuu/pi-pretty` | 0.6.30 | Tool/transcript presentation; [source](https://github.com/heyhuynhgiabuu/pi-pretty) |
+| Package source | Purpose / source |
+| --- | --- |
+| `npm:@indexyz/pi-provider-sub2api` | Relay provider and model discovery; [source](https://github.com/5aaee9/pi-agent-extensions/tree/main/pi-provider-sub2api) |
+| `npm:@narumitw/pi-btw` | Side conversation; [source](https://github.com/narumiruna/pi-extensions/tree/main/packages/pi-btw) |
+| `npm:pi-open-tui` | Terminal interface; [source](https://github.com/OldSuns/pi-open-tui) |
+| `npm:@narumitw/pi-statusline` | Status line; [source](https://github.com/narumiruna/pi-extensions/tree/main/packages/pi-statusline) |
+| `npm:pi-web-access` | Search, fetch, source checking and stored content; [source](https://github.com/nicobailon/pi-web-access) |
+| `npm:pi-subagents` | Subagents, council and its own workflows; [source](https://github.com/nicobailon/pi-subagents) |
+| `npm:@juicesharp/rpiv-todo` | Task tracking; [source](https://github.com/juicesharp/rpiv-mono/tree/main/packages/rpiv-todo) |
+| `npm:@quintinshaw/pi-dynamic-workflows` | Separate Dynamic Workflows engine; [source](https://github.com/QuintinShaw/pi-dynamic-workflows) |
+| `npm:@heyhuynhgiabuu/pi-pretty` | Tool/transcript presentation; [source](https://github.com/heyhuynhgiabuu/pi-pretty) |
 
 Use `pi list` to check declarations and inspect installed manifests/resources. A package entry is not proof that its extensions load. Restart Pi after package changes and inspect diagnostics. UI/footer extensions can compete for the same host hooks; preserve the requested packages and configuration, and report actual conflicts rather than removing one without permission.
 
 ### External tools and credentials
 
-- `pi-rtk-optimizer`: command rewriting requires the separate [RTK binary](https://github.com/rtk-ai/rtk). It was **not found on this computer's inspected PATH**; the saved configuration enables `guardWhenRtkMissing`, so commands fall back unchanged. Check the target shell's PATH. The binary is optional for matching this baseline: do not claim rewriting is verified without it, or install it merely because the plugin is present. Read/output compaction does not establish binary availability.
 - `pi-web-access`: follow its current provider setup. Reuse existing search credentials or supported keyless paths; do not manufacture keys or enable every provider. Distinguish tools loaded from authenticated search/fetch capability. Install optional video/browser tooling only if requested, not for the text/setup checks here.
 - Sub2API: create or reuse the local provider configuration only with the user's real relay details. Prefer the documented token environment-variable reference, such as `${SUB2API_TOKEN}`, where supported. Keep the provider name `sub2api` to match this snapshot. Never copy this computer's token or service URL into this repository; request missing relay details privately. Do not enable priority/fast, server-hosted tools, or other paid modes as part of setup.
 
@@ -65,12 +62,16 @@ Read each project's current installation instructions. Install the complete Skil
 | `meeting-summary-html` | https://github.com/gfgghgftgffg/meeting-summary-html | Include `scripts/prepare_meeting_input.py` and references. Run helpers with the `codex` interpreter. |
 | `shuorenhua` | https://github.com/MrGeDiao/shuorenhua | Include the full Skill and reference files. |
 | `task-routing` | https://github.com/gfgghgftgffg/task-router | Generate with the Pi native installer in section 5; copying a Codex Skill is incorrect. |
+| `grilling` | https://github.com/mattpocock/skills/blob/main/docs/productivity/grilling.md | Documentation URL; install the actual Skill, currently `skills/productivity/grilling/`, with its resources. |
+| `grill-me` | https://github.com/mattpocock/skills/blob/main/docs/productivity/grill-me.md | Documentation URL; install the actual Skill, currently `skills/productivity/grill-me/`, alongside its `grilling` dependency. |
 
-`meeting-summary-html` and `task-routing` currently disable automatic model invocation. Verify explicit `/skill:meeting-summary-html` and `/skill:task-routing` discovery; absence from the automatic Skill inventory alone is not a failed installation. Text meeting preparation requires no ASR key; media transcription requires `DASHSCOPE_API_KEY`. Do not upload real media during verification.
+After downloading `grill-me`, `grilling`, and `meeting-summary-html`, add `disable-model-invocation: true` below `description` in each installed `SKILL.md`, inside the opening `---` block. If the field already exists, set it to `true`.
 
-The packages in section 2 also provide **four Skills**: `pi-subagents` and `council-mode` from `pi-subagents`, plus `workflow-authoring` and `workflow-patterns` from Dynamic Workflows. Let the packages expose them through their manifests; do not copy them into the user Skill directory. Verify nine intended Skills in total, allowing preserved unrelated Skills.
+Install `grill-me` and `grilling` as sibling directories so `grill-me/SKILL.md` can read `../grilling/SKILL.md`. In Pi, invoke these Skills explicitly with `/skill:<name>`.
 
-Do **not** add Codex's `grill-me` or `grilling` Skills to Pi as part of this setup. The actual Pi installation implements that clarification policy in the question tool's custom JSON below.
+Text meeting preparation requires no ASR key; media transcription requires `DASHSCOPE_API_KEY`. Do not upload real media during verification.
+
+The packages in section 2 also provide **four Skills**: `pi-subagents` and `council-mode` from `pi-subagents`, plus `workflow-authoring` and `workflow-patterns` from Dynamic Workflows. Let the packages expose them through their manifests; do not copy them into the user Skill directory. Verify eleven intended Skills in total (seven user Skills and four package-bundled Skills), allowing preserved unrelated Skills.
 
 ## 4. Fixed Settings and Plugin Configurations
 
@@ -90,14 +91,8 @@ Back up and apply these fixed non-sensitive plugin configurations, creating pare
 | --- | --- |
 | [pi/open-tui.json](pi/open-tui.json) | `<agent-dir>/open-tui.json` |
 | [pi/pi-btw.json](pi/pi-btw.json) | `<agent-dir>/pi-btw.json` |
-| [pi/pi-rtk-optimizer/config.json](pi/pi-rtk-optimizer/config.json) | `<agent-dir>/extensions/pi-rtk-optimizer/config.json` |
-| [pi/rpiv-ask-user-question/config.json](pi/rpiv-ask-user-question/config.json) | `<effective-XDG-config-dir>/rpiv-ask-user-question/config.json` |
 
-For the question tool, an absolute `XDG_CONFIG_HOME` wins; otherwise use `~/.config`, including on Windows. Read the installed resolver documentation: an existing XDG file can shadow the legacy file even when invalid. Do not write this configuration under the Pi agent directory or Windows AppData merely by assumption.
-
-**The full question guidance is required.** Preserve `guidance.promptSnippet` and every `guidance.promptGuidelines` entry exactly. They implement ambiguity checking, frontier-based rounds, read-only factual investigation, confirmation before implementation, user-language questions, option constraints, and cancellation/fallback behavior. The guideline array replaces defaults wholesale; do not shorten it or replace it with the package defaults. The template intentionally omits `guidance.description` so the package's full built-in tool description remains available. On an existing installation, back up and remove an existing description override to achieve that behavior; preserve unrelated settings such as a user-owned `collapseKey`. Restart Pi to register the new guidance. The tool is interactive; its absence in non-interactive mode is expected.
-
-The RTK directory above contains only configuration, not a second extension installation. Keep lossy `read` compaction and source filtering disabled as saved. The BTW config intentionally selects `sub2api/gpt-6.1-sol`; verify it separately from the main model. No package-source patch, extra UI locale package, or local evidence bundle is required.
+The BTW config intentionally selects `sub2api/gpt-6.1-sol`; verify it separately from the main model. No package-source patch, extra UI locale package, or local evidence bundle is required.
 
 Check supported configuration fields against installed package versions. If an upgrade changes the schema or removes a field, preserve the source template, report the incompatibility, and ask before changing its intended behavior.
 
@@ -140,10 +135,10 @@ The proxy instruction records `127.0.0.1:7897`; use it only when available and n
 ## 7. Verification and Report
 
 1. Verify Pi/Node/Git and the actual shell; confirm the Conda interpreter location and successful `pypdf` import in `codex`.
-2. Verify all 11 package declarations, installed resources, and startup diagnostics. Distinguish installed from loaded, UI hooks from tested rendering, and optional RTK absence from a broken plugin.
-3. Verify the five user Skills with their resources and four package-bundled Skills, without duplicate names. Check the explicit-only Skills separately.
+2. Verify all 9 package declarations, installed resources, and startup diagnostics. Distinguish installed from loaded and UI hooks from tested rendering.
+3. Verify the seven user Skills and four package-bundled Skills with their resources, without duplicate names. Confirm `grill-me` can find `grilling`, and `grill-me`, `grilling`, and `meeting-summary-html` have `disable-model-invocation: true`. Check explicit Skill commands after restart or `/reload`.
 4. Run the meeting preparation helper with a temporary text fixture locally; verify a transcript and no ASR use. Do not upload media or make paid requests.
-5. Parse every deployed JSON; compare template-owned values against the [pi/ sources](pi/README.md). Confirm the complete question guidance is loaded from the effective XDG path after restart, without a stale description override. Static checks are not proof of real dialog behavior; request user cooperation only for an interactive smoke test, without a paid model turn solely for setup.
+5. Parse every deployed JSON; compare template-owned values against the [pi/ sources](pi/README.md). Static checks are not proof of real UI rendering or model adherence to a Skill; do not make a paid model turn solely for setup.
 6. Verify saved model/UI defaults and the BTW model; distinguish registry metadata, authenticated connectivity, and live inference. Missing credentials or unverified model/thinking support must remain pending.
 7. Verify Router configuration, generated `tr_*` roles, contracts, references, and a single Pi router block. Distinguish static `doctor` success from background runtime support and real dispatch; do not activate routing or launch agents solely to test.
 8. Verify global instructions against the rendered Pi template, no unresolved placeholders, and preserved unrelated instructions. Recheck that rerunning unchanged setup produces no duplicate registrations or instruction blocks.

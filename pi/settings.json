@@ -3,13 +3,11 @@
     "npm:@indexyz/pi-provider-sub2api",
     "npm:@narumitw/pi-btw",
     "npm:pi-open-tui",
-    "npm:pi-rtk-optimizer",
     "npm:@narumitw/pi-statusline",
     "npm:pi-web-access",
     "npm:pi-subagents",
     "npm:@juicesharp/rpiv-todo",
     "npm:@quintinshaw/pi-dynamic-workflows",
-    "npm:@juicesharp/rpiv-ask-user-question",
     "npm:@heyhuynhgiabuu/pi-pretty"
   ],
   "defaultProvider": "sub2api",

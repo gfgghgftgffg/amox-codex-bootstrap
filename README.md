@@ -46,12 +46,12 @@ You can also clone this repository and ask Pi to follow the local [setup_for_pi.
 ## Pi Included
 
 - The shared `codex` Conda environment and `pypdf`.
-- All 11 installed Pi packages, including Sub2API, web access, subagents, Dynamic Workflows, todo, the question tool, and the current UI packages. Versions and sources are listed in [setup_for_pi.md](setup_for_pi.md).
-- Five user Skills: `design-taste-frontend`, `humanizer`, `meeting-summary-html`, `shuorenhua`, and Pi's generated `task-routing`.
+- The 9 configured Pi packages, including Sub2API, web access, subagents, Dynamic Workflows, todo, and the current UI packages. Packages install from the latest releases; sources are listed in [setup_for_pi.md](setup_for_pi.md).
+- Seven user Skills: `design-taste-frontend`, `humanizer`, `meeting-summary-html`, `shuorenhua`, `grill-me`, `grilling`, and Pi's generated `task-routing`.
 - Four package-bundled Skills: `pi-subagents`, `council-mode`, `workflow-authoring`, and `workflow-patterns`, without duplicate copies.
 - Fixed [Pi AGENTS.md](pi/AGENTS.md), [settings](pi/settings.json), router configuration, and non-sensitive plugin configurations in [pi/](pi/README.md).
-- The **complete custom ask-user-question guidance**, saved in [pi/rpiv-ask-user-question/config.json](pi/rpiv-ask-user-question/config.json), including design-tree clarification rounds and confirmation before implementation. Pi does not need separate grill-me/grilling Skills for this policy.
+- Interview Skills: `grill-me` and `grilling`. Both setup documents include the required `disable-model-invocation: true` setting for these Skills and `meeting-summary-html`.
 
-Pi routing is opt-in through `/skill:task-routing` and uses pi-subagents' own workflow interface, not Dynamic Workflows. Model availability and relay/search credentials must be checked on the new computer; no credentials or session data are stored here. The RTK plugin can fall back without the optional RTK binary.
+Pi routing is opt-in through `/skill:task-routing` and uses pi-subagents' own workflow interface, not Dynamic Workflows. Model availability and relay/search credentials must be checked on the new computer; no credentials or session data are stored here.
 
 Edit [setup_for_pi.md](setup_for_pi.md) for installation behavior and the files in [pi/](pi/README.md) for personal Pi configuration. Codex and Pi have separate instruction templates and installation targets; do not overwrite one with the other's bundle.

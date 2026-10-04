@@ -43,6 +43,10 @@ Respect `CODEX_HOME` and existing global Skill locations. Avoid registering the 
 | grilling | https://github.com/mattpocock/skills/blob/main/docs/productivity/grilling.md | This URL is documentation. Locate the actual Skill, currently `skills/productivity/grilling/`. |
 | grill-me | https://github.com/mattpocock/skills/blob/main/docs/productivity/grill-me.md | This URL is documentation. Install the actual Skill, currently `skills/productivity/grill-me/`, together with its `grilling` dependency. |
 
+After downloading `grill-me`, `grilling`, and `meeting-summary-html`, add `disable-model-invocation: true` below `description` in each installed `SKILL.md`, inside the opening `---` block. If the field already exists, set it to `true`.
+
+Install `grill-me` and `grilling` as sibling directories so `../grilling/SKILL.md` resolves from `grill-me`.
+
 ### Task Router
 
 The project is now named `task-router` (formerly `codex-task-router`). Use the new repository URL above. Existing stable checkouts may retain their directory name; verify and update their Git remote without discarding local routing configuration. The Codex profile and Skill remain named `task-routing`; do not rename them to match the repository.
@@ -107,7 +111,7 @@ These values are explicitly requested defaults and should replace existing value
 Verify the following after installation:
 
 1. Python runs from the `codex` environment and can import `pypdf`; confirm the interpreter's location.
-2. All seven project / Skill entries and required resources are present, and `grill-me` can find `grilling`.
+2. All seven project / Skill entries and required resources are present, `grill-me` can find `grilling`, and `grill-me`, `grilling`, and `meeting-summary-html` have `disable-model-invocation: true`.
 3. Task Router's installation checks pass. Distinguish static configuration checks, host support, and live model verification; do not make paid model calls for this check.
 4. The meeting preparation helper processes a temporary text fixture locally without credentials or media uploads.
 5. Global instructions match `templates/AGENTS.md` after path substitution, contain no unresolved placeholders or duplicate router blocks, and preserve unrelated user instructions. Verify that the grill-me uncertainty trigger is retained and no automatic Skill inventory has been added.
