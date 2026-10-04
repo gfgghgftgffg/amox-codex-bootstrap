@@ -57,19 +57,23 @@ Check the helpers' actual dependencies; the current preparation scripts use the 
 
 Text input requires no ASR credentials. Audio/video transcription requires `DASHSCOPE_API_KEY`. If absent, report transcription as pending configuration without blocking text summaries or other installations. Do not upload real media or make paid requests just to test the installation.
 
-## 3. Minimal Global AGENTS.md
+## 3. Fixed Global AGENTS.md Template
 
 Locate the global instructions used by this Codex installation, normally under `CODEX_HOME` or `~/.codex`. Check whether `AGENTS.override.md` or host-specific settings affect which file is loaded.
 
-Keep global instructions as short as possible. Do not list or describe Skills that Codex already discovers through its Skill catalog, or repeat their paths, triggers, or workflows. Do not add a bootstrap managed block, start/end markers, or installation history. Preserve unrelated user instructions and the Task Router installer's own entry.
+Use [templates/AGENTS.md](templates/AGENTS.md) as the fixed source of global instructions. Fetch it from this repository if working from a downloaded copy of `setup.md` alone. It records the user's chosen instructions; do not generate, paraphrase, summarize, or expand them on each installation.
 
-Record only environment conventions and entry points that are otherwise missing:
+After installing the dependencies and Task Router, substitute only these placeholders with verified absolute paths on this computer:
 
-- Python: use the `codex` Conda environment for Python execution and dependency installation; include the working Conda and interpreter paths. Note briefly that `pypdf` is installed.
-- Skill exceptions: only if a required entry is not exposed by the host, add a minimal pointer. For example, if `grill-me` is not exposed, retain a single line for user-requested plan questioning with its local path and its `grilling` dependency. Do not add this exception when the host already provides the entry.
-- Task Router: its local entry or configuration path and the required profile activation, unless the upstream installer already supplies that information.
+- `{{CONDA_PATH}}` and `{{PYTHON_PATH}}`: the Conda executable and the `codex` environment's Python interpreter.
+- `{{GRILL_ME_PATH}}` and `{{GRILLING_PATH}}`: the respective installed `SKILL.md` files.
+- `{{TASK_ROUTER_CONFIG_PATH}}` and `{{TASK_ROUTER_SOURCE_PATH}}`: the installed router configuration and its stable source directory.
 
-Leave detailed behavior in the Skills themselves and installation status in the final report. Remove redundant Skill inventory entries previously added by this setup, while preserving user-specific instructions and necessary exceptions. Do not duplicate Task Router instructions already written by its installer.
+Back up an existing global `AGENTS.md`. On a fresh installation, write the rendered template verbatim. On an existing installation, replace the corresponding router, Python, grill-me, and proxy entries with the template text, preserve unrelated user instructions, and remove redundant Skill inventory entries previously added by this setup. Keep exactly one router block, using the template's wording after the upstream installer finishes. Do not add a bootstrap managed block or descriptions of automatically discovered Skills.
+
+The grill-me instruction is intentional and must remain even when the Skill is automatically discovered: for a concrete development or completion task, invoke it when something remains unclear to resolve the uncertainty. Do not narrow its trigger to explicit requests for plan questioning.
+
+If a required installation fails, report the blocker rather than rendering unresolved paths or claiming missing dependencies are installed. Installation status belongs in the final report, not in the template.
 
 ## 4. Global config.toml
 
@@ -100,7 +104,7 @@ Verify the following after installation:
 2. All seven project / Skill entries and required resources are present, and `grill-me` can find `grilling`.
 3. Task Router's installation checks pass. Distinguish static configuration checks, host support, and live model verification; do not make paid model calls for this check.
 4. The meeting preparation helper processes a temporary text fixture locally without credentials or media uploads.
-5. Global instructions are in the effective location, preserve user-specific content, and do not repeat automatically discovered Skills. Keep only the environment convention and necessary entry-point exceptions alongside the upstream Task Router entry.
+5. Global instructions match `templates/AGENTS.md` after path substitution, contain no unresolved placeholders or duplicate router blocks, and preserve unrelated user instructions. Verify that the grill-me uncertainty trigger is retained and no automatic Skill inventory has been added.
 6. Global `config.toml` parses successfully, contains the requested settings without duplicate tables or keys, and preserves unrelated configuration. Confirm the Windows-only setting was applied only on Windows. Distinguish saved values from settings actually supported and effective in the current host.
 
 Report each item as newly installed, reused, pending configuration, or failed. Include key paths, sources, and installed versions or commit IDs. Explain any required new session, reload, or profile activation. For failures, give the specific cause and next step; do not report partial completion as full success.
