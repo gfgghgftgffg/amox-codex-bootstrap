@@ -8,12 +8,12 @@ These files capture the current personal Pi configuration without credentials or
 | [settings.json](settings.json) | Merge into `<agent-dir>/settings.json`; omit machine-generated `lastChangelogVersion` |
 | [open-tui.json](open-tui.json) | `<agent-dir>/open-tui.json` |
 | [pi-btw.json](pi-btw.json) | `<agent-dir>/pi-btw.json` |
-| [subagents.json](subagents.json) | `<agent-dir>/subagents.json`; strict role dispatch, agent-file checks, and native lean workflows |
+| [subagents.json](subagents.json) | `<agent-dir>/subagents.json`; 50 background slots, model display, strict role dispatch, and native lean workflows |
 | [routing.toml](routing.toml) | Stable Task Router source configuration passed with `--config`; do not copy generated agents from another host |
 
 `<agent-dir>` is `PI_CODING_AGENT_DIR`, otherwise `~/.pi/agent`.
 
-JSON plugin configurations are copies of this computer's non-sensitive settings. The package list uses unversioned sources to install the latest releases. The AGENTS template differs only in its two local path placeholders. The router configuration matches this computer's generated role map; it does not change the normal Pi startup model.
+JSON plugin configurations capture this computer's non-sensitive preferences. The subagent template merges global defaults with the preferences saved by the agent UI in `~/.pi/subagents.json`, deploying them as global defaults on new computers. The package list uses unversioned sources to install the latest releases. The AGENTS template differs only in its two local path placeholders. The router configuration matches this computer's generated role map; it does not change the normal Pi startup model.
 
 Skill installation and the required `disable-model-invocation: true` setting are covered in [setup_for_pi.md](../setup_for_pi.md). Neither global AGENTS template automatically triggers a grilling interview.
 

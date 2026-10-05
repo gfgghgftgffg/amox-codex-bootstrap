@@ -46,13 +46,12 @@ You can also clone this repository and ask Pi to follow the local [setup_for_pi.
 ## Pi Included
 
 - The shared `codex` Conda environment and `pypdf`.
-- The 10 configured Pi packages, including Sub2API, lean web access, lean subagents, Dynamic Workflows, lean todo, retry, and the current UI packages. Packages install from the latest releases; sources are listed in [setup_for_pi.md](setup_for_pi.md).
+- The 9 configured Pi packages, including Sub2API, lean web access, lean subagents, lean todo, retry, and the current UI packages. Packages install from the latest releases; sources are listed in [setup_for_pi.md](setup_for_pi.md).
 - Six user Skills: `design-taste-frontend`, `humanizer`, `meeting-summary-html`, `shuorenhua`, `grilling`, and Pi's generated `task-routing`.
-- Two package-bundled Skills: `workflow-authoring` and `workflow-patterns`, without duplicate copies.
 - Fixed [Pi AGENTS.md](pi/AGENTS.md), [settings](pi/settings.json), router configuration, and non-sensitive plugin configurations in [pi/](pi/README.md).
 - Interview Skill: `grilling`, for explicit use only. Both setup documents include the required `disable-model-invocation: true` setting for it and `meeting-summary-html`.
-- Lean subagent configuration in [pi/subagents.json](pi/subagents.json), including strict role dispatch and native workflows.
+- Lean subagent configuration in [pi/subagents.json](pi/subagents.json), including 50 background slots, model display, strict role dispatch, and native workflows.
 
-Pi routing is opt-in through `/skill:task-routing` and uses `@ssk_dev/pi-subagents-lean`'s native workflow interface, not Dynamic Workflows. Search roles use the lean `web_access` interface. Model availability and relay/search credentials must be checked on the new computer; no credentials or session data are stored here.
+Pi routing is opt-in through `/skill:task-routing` and uses `@ssk_dev/pi-subagents-lean`'s native workflow interface. Search roles use the lean `web_access` interface. Model availability and relay/search credentials must be checked on the new computer; no credentials or session data are stored here.
 
 Edit [setup_for_pi.md](setup_for_pi.md) for installation behavior and the files in [pi/](pi/README.md) for personal Pi configuration. Codex and Pi have separate instruction templates and installation targets; do not overwrite one with the other's bundle.

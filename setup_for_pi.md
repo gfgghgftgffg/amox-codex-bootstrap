@@ -28,7 +28,7 @@ Check that `pypdf` imports and install it only if missing. Install other depende
 
 ## 2. Pi Packages
 
-Install these **10 user-level packages** through Pi, for example `pi install npm:@ssk_dev/pi-subagents-lean`, without `--local`. Use the package order in [pi/settings.json](pi/settings.json), preserving unrelated declarations. Do not also copy their entrypoints into extension discovery directories.
+Install these **9 user-level packages** through Pi, for example `pi install npm:@ssk_dev/pi-subagents-lean`, without `--local`. Use the package order in [pi/settings.json](pi/settings.json), preserving unrelated declarations. Do not also copy their entrypoints into extension discovery directories.
 
 | Package source | Purpose / source |
 | --- | --- |
@@ -36,7 +36,6 @@ Install these **10 user-level packages** through Pi, for example `pi install npm
 | `npm:@narumitw/pi-btw` | Side conversation; [source](https://github.com/narumiruna/pi-extensions/tree/main/packages/pi-btw) |
 | `npm:pi-open-tui` | Terminal interface; [source](https://github.com/OldSuns/pi-open-tui) |
 | `npm:@narumitw/pi-statusline` | Status line; [source](https://github.com/narumiruna/pi-extensions/tree/main/packages/pi-statusline) |
-| `npm:@quintinshaw/pi-dynamic-workflows` | Separate Dynamic Workflows engine; [source](https://github.com/QuintinShaw/pi-dynamic-workflows) |
 | `npm:@heyhuynhgiabuu/pi-pretty` | Tool/transcript presentation; [source](https://github.com/heyhuynhgiabuu/pi-pretty) |
 | `npm:@ssk_dev/pi-web-access-lean` | Search, fetch and source checking through `web_access`; [source](https://github.com/kunkun9527/pi-web-access-lean) |
 | `npm:@ssk_dev/rpiv-todo-lean` | Task tracking through `todo`; [source](https://github.com/kunkun9527/rpiv-todo-lean) |
@@ -70,7 +69,7 @@ After downloading `grilling` and `meeting-summary-html`, add `disable-model-invo
 
 Text meeting preparation requires no ASR key. Media transcription requires `DASHSCOPE_API_KEY`; report missing credentials without blocking text summaries, and do not upload media for verification.
 
-Dynamic Workflows provides **two package-bundled Skills**, `workflow-authoring` and `workflow-patterns`. Let its manifest expose them without copying them into the user Skill directory. Verify eight intended Skills in total, allowing preserved unrelated Skills.
+Verify all six intended Skills and their resources, allowing preserved unrelated Skills.
 
 ## 4. Fixed Settings and Plugin Configurations
 
@@ -92,7 +91,7 @@ Back up and apply these fixed non-sensitive configurations. On a fresh installat
 | [pi/pi-btw.json](pi/pi-btw.json) | `<agent-dir>/pi-btw.json` |
 | [pi/subagents.json](pi/subagents.json) | `<agent-dir>/subagents.json` |
 
-The subagent settings are `fallbackSubagent: "none"`, `strictAgentFiles: true`, and `workflowsEnabled: true`: refuse unknown-role fallback, check agent files strictly at startup, and enable the lean engine's native workflows. Project `.pi/subagents.json` can override global fields; report effective differences. Restart Pi after configuration and role changes.
+Apply the full [pi/subagents.json](pi/subagents.json) configuration. It combines this computer's global defaults and project-scoped preferences for use as global defaults on the new computer. Key settings include `maxConcurrent: 50` for direct background agents, `showModel: true` to display their effective model/thinking, `fallbackSubagent: "none"`, `strictAgentFiles: true`, and `workflowsEnabled: true`. `maxConcurrentForeground: 0` and `defaultMaxTurns: 0` mean unlimited. Project `.pi/subagents.json` overrides global fields; report effective differences. Restart Pi after configuration and role changes.
 
 BTW selects `sub2api/gpt-6.1-sol` with `thinkingLevel: "medium"`; verify its selection separately from the main model. Keep the requested value and report any unsupported thinking level. No package-source patches or runtime evidence directories need migration.
 
@@ -117,7 +116,7 @@ Generated roles deliberately do not pin model/thinking in frontmatter: the role 
 
 Use `/agents` and `subagent({ op: "help", input: "run" })` to inspect loaded types and schema without launching children. Use `pi --list-models` for available IDs; it does not prove thinking support. `doctor` is offline/static: without a verified credential-free registry snapshot, model availability and thinking remain `UNVERIFIED`. Supply `--catalog` only from actual host metadata, never a fabricated list. Confirm search-role selectors expose `ext:pi-web-access-lean/web_access` and prohibit shell/mutation tools; registration in the parent alone is not proof of child loading.
 
-Task Router uses **lean's native `subagent` operation `workflow`**, not the separately installed Dynamic Workflows tool. Keep both packages; do not mix their execution or lifecycle APIs. Native workflows use `agent()/parallel()/pipeline()` and run in the background. Their host concurrency cap is independent of direct background agents' `subagents.json maxConcurrent` pool; the Router maximum does not override stricter limits.
+Task Router uses **lean's native `subagent` operation `workflow`**. Native workflows use `agent()/parallel()/pipeline()` and run in the background. Their host concurrency cap is independent of direct background agents' `maxConcurrent: 50` pool; the Router's own maximum and stricter host limits still apply.
 
 Restart Pi or `/reload` after installing roles, then activate only when requested with `/skill:task-routing`. Installation does not authorize delegation. Pi's `-p` is print mode, not a profile flag. The Router's recommended orchestrator (`gpt-6-astra`, `medium`) does not change the normal Pi default (`gpt-6.1-sol`, `medium`).
 
@@ -135,10 +134,10 @@ Retain installer-managed block protections. If a newer Router changes its policy
 ## 7. Verification and Report
 
 1. Verify Pi, Node, Git, shell, and the `codex` interpreter with a successful `pypdf` import.
-2. Verify all 10 package declarations, resources, and startup diagnostics, including the lean `subagent`, `web_access`, and `todo` tools and `/retry status`. Check for duplicate facades; distinguish installed from loaded.
-3. Verify six user Skills and two package-bundled Skills with resources. Confirm `grilling` and `meeting-summary-html` have `disable-model-invocation: true`, and explicit Skill commands remain available.
+2. Verify all 9 package declarations, resources, and startup diagnostics, including the lean `subagent`, `web_access`, and `todo` tools and `/retry status`. Check for duplicate facades; distinguish installed from loaded.
+3. Verify six user Skills with resources. Confirm `grilling` and `meeting-summary-html` have `disable-model-invocation: true`, and explicit Skill commands remain available.
 4. Run the meeting preparation helper on a temporary local text fixture without ASR or uploads.
-5. Parse deployed JSON and compare template-owned values with [pi/](pi/README.md). Verify subagent fallback/strict-file/workflow settings and both main-model and BTW `medium` thinking. Distinguish saved defaults, model metadata, and live operation.
+5. Parse deployed JSON and compare template-owned values with [pi/](pi/README.md). Verify subagent concurrency, model display, fallback/strict-file/workflow settings and both main-model and BTW `medium` thinking. Distinguish saved defaults, model metadata, and live operation.
 6. Verify flat Router roles, their references and tool selectors, exact model/thinking policies, and one Pi AGENTS block. Distinguish static `doctor` success from runtime support; do not dispatch children or paid inference merely for verification.
 7. Compare global instructions with the rendered template; check no unresolved placeholders, duplicate blocks, or automatic interview trigger. Preserve unrelated instructions and confirm repeated setup does not duplicate registrations.
 
