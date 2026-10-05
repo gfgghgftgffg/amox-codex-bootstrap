@@ -4,33 +4,31 @@ Give this file or repository to Pi on a new computer and ask:
 
 > Read setup_for_pi.md, configure this computer accordingly, verify the installation, and report the results.
 
-This is a task brief for Windows, macOS, and Linux, based on this computer's installed Pi packages, Skills, global instructions, and non-sensitive configuration. Complete the setup rather than handing the user commands. Read current upstream documentation and select commands for the actual OS, architecture, shell, and installed host version.
+This is a task brief for Windows, macOS, and Linux, based on the user's current Pi installation. Complete the setup rather than handing the user commands. Read current upstream instructions and choose commands for the actual OS, architecture, shell, and host version.
 
 ## General Approach
 
-- Check before installing; reuse compatible installations. Repeated runs must not duplicate packages, Skills, role definitions, or instruction blocks.
-- Back up files before editing. Merge requested settings in place, preserving unrelated user instructions, packages, credentials, and configuration. Do not replace an existing whole agent directory.
-- Use user-owned installation locations. Respect `PI_CODING_AGENT_DIR` (default `~/.pi/agent`), `XDG_CONFIG_HOME`, and the effective configuration paths documented by each package.
-- Read third-party package manifests and installation instructions before running installation actions. Install only the capabilities requested here; do not enable optional hosted tools or additional permissions.
-- Keep secrets local and out of this repository, global instructions, and reports. Do not copy sessions, caches, missions, manifests, backups, or old machine paths.
-- Missing credentials or unavailable models must not block independent steps. Report these as pending, not as a working installation. Do not make paid model calls, upload private files, or activate delegation merely to verify setup.
-- Fetch all referenced files from this repository if working from a downloaded copy of this document alone. The [pi/ directory](pi/README.md) contains fixed configuration sources, not illustrative snippets to paraphrase.
+- Check before installing; reuse compatible installations. Avoid duplicate packages, Skills, roles, and instruction blocks.
+- Back up files before editing. Preserve unrelated user instructions, packages, credentials, and configuration; do not replace a whole agent directory.
+- Respect `PI_CODING_AGENT_DIR` (default `~/.pi/agent`) and each package's effective configuration paths.
+- Install the latest releases; do not pin package versions. Check compatibility and report unsupported features instead of silently changing the requested behavior.
+- Keep secrets, sessions, caches, backups, and generated runtime records out of this repository and reports.
+- Missing credentials or models must not block independent steps. Do not make paid model calls, upload private files, or launch agents merely to verify setup.
+- Fetch the referenced [pi/ files](pi/README.md) from this repository if working from this document alone.
 
 ## 1. Pi, Conda, and Dependencies
 
-Reuse an installed Pi when compatible. If absent, follow the [official Pi installation instructions](https://github.com/earendil-works/pi). The inspected host is **Pi 1.0.2**, requiring Node.js **22.19 or newer**. Prefer an official supported user-level installation; the documented npm alternative is `npm install -g --ignore-scripts @earendil-works/pi-coding-agent`. Do not downgrade or update a working host merely to match this snapshot. Verify `pi --version` and the actual shell used by Pi; on Windows check Git Bash or another currently supported shell.
+Reuse compatible Pi, Node.js, Git, and shell installations. If Pi is absent, follow the [official installation instructions](https://github.com/earendil-works/pi). Install the latest release and verify its current requirements; Node.js 22.19 or newer is required by the current packages. The documented npm alternative is `npm install -g --ignore-scripts @earendil-works/pi-coding-agent`. Verify `pi --version` and the shell actually used by Pi, including supported Bash availability on Windows.
 
-Find an existing Conda installation through PATH, environment variables, and common installation locations. A missing PATH command alone does not mean Conda is absent. If needed, install the appropriate official Miniforge release, verify its download, and use a user-owned directory without replacing system Python.
+Find Conda through PATH, environment variables, and common installation locations. If missing, install the appropriate official Miniforge release into a user-owned directory and verify its download. Do not replace system Python.
 
-Reuse the Conda environment named `codex`, shared with the Codex setup. If absent, create it with Python 3.12; retain an existing compatible Python version. **All Python execution, libraries, CLI tools, and future Python dependencies for this setup must use this environment**, never system Python, base, or `pip --user`. Use its interpreter for scripts and pip, for example `conda run -n codex python -m pip ...`.
+Reuse the Conda environment `codex`, shared with Codex. Create it with Python 3.12 if absent; retain an existing compatible version. **Use this environment for all Python execution and dependencies**, never system Python, base, or `pip --user`. Use its interpreter for pip and scripts, for example `conda run -n codex python -m pip ...`.
 
-Check `pypdf` imports and install it only if missing. Reuse compatible Node.js and Git. For missing non-Python dependencies prefer Conda where supported, otherwise the tool's official user-level installation. Only install tools required by the requested packages and Skills.
+Check that `pypdf` imports and install it only if missing. Install other dependencies only when required by the packages or Skills below, preferring Conda where supported or an official user-level installation.
 
 ## 2. Pi Packages
 
-Install these **9 user-level packages** through Pi's package manager, for example `pi install npm:pi-subagents`, without `--local`. Preserve their relative order when merging with existing package declarations; do not also copy their extension entrypoints into auto-discovery directories.
-
-Install the latest releases of these packages; do not pin versions.
+Install these **10 user-level packages** through Pi, for example `pi install npm:@ssk_dev/pi-subagents-lean`, without `--local`. Use the package order in [pi/settings.json](pi/settings.json), preserving unrelated declarations. Do not also copy their entrypoints into extension discovery directories.
 
 | Package source | Purpose / source |
 | --- | --- |
@@ -38,44 +36,45 @@ Install the latest releases of these packages; do not pin versions.
 | `npm:@narumitw/pi-btw` | Side conversation; [source](https://github.com/narumiruna/pi-extensions/tree/main/packages/pi-btw) |
 | `npm:pi-open-tui` | Terminal interface; [source](https://github.com/OldSuns/pi-open-tui) |
 | `npm:@narumitw/pi-statusline` | Status line; [source](https://github.com/narumiruna/pi-extensions/tree/main/packages/pi-statusline) |
-| `npm:pi-web-access` | Search, fetch, source checking and stored content; [source](https://github.com/nicobailon/pi-web-access) |
-| `npm:pi-subagents` | Subagents, council and its own workflows; [source](https://github.com/nicobailon/pi-subagents) |
-| `npm:@juicesharp/rpiv-todo` | Task tracking; [source](https://github.com/juicesharp/rpiv-mono/tree/main/packages/rpiv-todo) |
 | `npm:@quintinshaw/pi-dynamic-workflows` | Separate Dynamic Workflows engine; [source](https://github.com/QuintinShaw/pi-dynamic-workflows) |
 | `npm:@heyhuynhgiabuu/pi-pretty` | Tool/transcript presentation; [source](https://github.com/heyhuynhgiabuu/pi-pretty) |
+| `npm:@ssk_dev/pi-web-access-lean` | Search, fetch and source checking through `web_access`; [source](https://github.com/kunkun9527/pi-web-access-lean) |
+| `npm:@ssk_dev/rpiv-todo-lean` | Task tracking through `todo`; [source](https://github.com/kunkun9527/rpiv-todo-lean) |
+| `npm:@ssk_dev/pi-subagents-lean` | Subagents and native workflows through `subagent`; [source](https://github.com/kunkun9527/pi-subagents-lean) |
+| `npm:@monotykamary/pi-retry` | Automatic retry and continuation; [source](https://github.com/monotykamary/pi-retry) |
 
-Use `pi list` to check declarations and inspect installed manifests/resources. A package entry is not proof that its extensions load. Restart Pi after package changes and inspect diagnostics. UI/footer extensions can compete for the same host hooks; preserve the requested packages and configuration, and report actual conflicts rather than removing one without permission.
+Load only the selected lean subagent/web/todo facades. Their upstream runtime dependencies are installed automatically; do not register those dependencies or competing wrappers as additional extensions. Replace corresponding previous registrations when updating an existing setup, preserving unrelated packages.
 
-### External tools and credentials
+Use `pi list` and startup diagnostics to distinguish configured, installed, and loaded packages. Restart Pi after changes. UI/footer extensions may compete for host hooks; report actual conflicts rather than silently removing packages.
 
-- `pi-web-access`: follow its current provider setup. Reuse existing search credentials or supported keyless paths; do not manufacture keys or enable every provider. Distinguish tools loaded from authenticated search/fetch capability. Install optional video/browser tooling only if requested, not for the text/setup checks here.
-- Sub2API: create or reuse the local provider configuration only with the user's real relay details. Prefer the documented token environment-variable reference, such as `${SUB2API_TOKEN}`, where supported. Keep the provider name `sub2api` to match this snapshot. Never copy this computer's token or service URL into this repository; request missing relay details privately. Do not enable priority/fast, server-hosted tools, or other paid modes as part of setup.
+### Provider and Retry Setup
 
-## 3. User Skills and Package-Bundled Skills
+- Sub2API needs the user's real relay configuration. Keep the provider name `sub2api`; prefer a supported token environment-variable reference such as `${SUB2API_TOKEN}`. Never copy this computer's credentials or relay URL into the repository. Request missing details privately; do not enable paid priority modes or hosted tools for setup.
+- The lean web package exposes one `web_access` tool for search/check/fetch/get/help. Follow its current provider setup, reusing credentials or supported keyless paths. Tool registration alone does not prove authenticated search works. Do not install optional video/browser tools unless requested.
+- `pi-retry` uses its defaults; this snapshot adds no `piRetry` overrides. It owns retries while loaded and disables the host's native retry scheduler. Check `/retry status` without intentionally failing model calls. Retries and output-limit auto-continuation may create additional billed turns; do not add another retry scheduler or test these with paid requests.
 
-Read each project's current installation instructions. Install the complete Skill directory with scripts, references, and assets into `<agent-dir>/skills/`, or reuse an existing discoverable complete copy without registering it twice. Keep needed source checkouts in a stable user-owned location. For a host-neutral Skill, use Pi's documented Skill discovery rather than Codex-specific installation paths.
+## 3. Skills
+
+Install these **six user Skills** into `<agent-dir>/skills/`, or reuse complete discoverable copies without duplicate registration. Include scripts, references, and assets, not just `SKILL.md`. Keep needed source checkouts in stable user-owned directories.
 
 | User Skill | Source | Requirements |
 | --- | --- | --- |
-| `design-taste-frontend` | https://github.com/Leonxlnx/taste-skill | Install the primary Skill, currently under `skills/taste-skill/`; use its frontmatter name. Optional variants are not requested. |
+| `design-taste-frontend` | https://github.com/Leonxlnx/taste-skill | Install the primary Skill, currently `skills/taste-skill/`, using its frontmatter name. Optional variants are not requested. |
 | `humanizer` | https://github.com/blader/humanizer | Include the full Skill and referenced resources. |
-| `meeting-summary-html` | https://github.com/gfgghgftgffg/meeting-summary-html | Include `scripts/prepare_meeting_input.py` and references. Run helpers with the `codex` interpreter. |
+| `meeting-summary-html` | https://github.com/gfgghgftgffg/meeting-summary-html | Include `scripts/prepare_meeting_input.py` and references; run helpers with the `codex` interpreter. |
 | `shuorenhua` | https://github.com/MrGeDiao/shuorenhua | Include the full Skill and reference files. |
-| `task-routing` | https://github.com/gfgghgftgffg/task-router | Generate with the Pi native installer in section 5; copying a Codex Skill is incorrect. |
-| `grilling` | https://github.com/mattpocock/skills/blob/main/docs/productivity/grilling.md | Documentation URL; install the actual Skill, currently `skills/productivity/grilling/`, with its resources. |
-| `grill-me` | https://github.com/mattpocock/skills/blob/main/docs/productivity/grill-me.md | Documentation URL; install the actual Skill, currently `skills/productivity/grill-me/`, alongside its `grilling` dependency. |
+| `task-routing` | https://github.com/gfgghgftgffg/task-router | Generate with the Pi installer in section 5, not a Codex bundle. |
+| `grilling` | https://github.com/mattpocock/skills/blob/main/docs/productivity/grilling.md | Documentation URL; install the actual Skill, currently `skills/productivity/grilling/`. |
 
-After downloading `grill-me`, `grilling`, and `meeting-summary-html`, add `disable-model-invocation: true` below `description` in each installed `SKILL.md`, inside the opening `---` block. If the field already exists, set it to `true`.
+After downloading `grilling` and `meeting-summary-html`, add `disable-model-invocation: true` below `description` in each installed `SKILL.md`, inside the opening `---` block. If the field already exists, set it to `true`. Invoke them explicitly with `/skill:grilling` or `/skill:meeting-summary-html`; do not add an automatic interview trigger to AGENTS.md. Generated `task-routing` is also explicit-only.
 
-Install `grill-me` and `grilling` as sibling directories so `grill-me/SKILL.md` can read `../grilling/SKILL.md`. In Pi, invoke these Skills explicitly with `/skill:<name>`.
+Text meeting preparation requires no ASR key. Media transcription requires `DASHSCOPE_API_KEY`; report missing credentials without blocking text summaries, and do not upload media for verification.
 
-Text meeting preparation requires no ASR key; media transcription requires `DASHSCOPE_API_KEY`. Do not upload real media during verification.
-
-The packages in section 2 also provide **four Skills**: `pi-subagents` and `council-mode` from `pi-subagents`, plus `workflow-authoring` and `workflow-patterns` from Dynamic Workflows. Let the packages expose them through their manifests; do not copy them into the user Skill directory. Verify eleven intended Skills in total (seven user Skills and four package-bundled Skills), allowing preserved unrelated Skills.
+Dynamic Workflows provides **two package-bundled Skills**, `workflow-authoring` and `workflow-patterns`. Let its manifest expose them without copying them into the user Skill directory. Verify eight intended Skills in total, allowing preserved unrelated Skills.
 
 ## 4. Fixed Settings and Plugin Configurations
 
-Use [pi/settings.json](pi/settings.json) as the requested settings source. Merge its packages by identity, preserving unrelated declarations, avoiding duplicate sources or resource filters that hide required functionality. Set its listed non-package preferences in place, preserving other keys:
+Merge [pi/settings.json](pi/settings.json) into the effective global settings, merging packages by identity and preserving unrelated keys. Apply these requested preferences:
 
 - `defaultProvider`: `sub2api`
 - `defaultModel`: `gpt-6.1-sol`
@@ -83,26 +82,27 @@ Use [pi/settings.json](pi/settings.json) as the requested settings source. Merge
 - `enabledModels`: `["sub2api/*"]`
 - `tuiMode`: `fullscreen`; `theme`: `dark`
 
-These are intentional personal defaults, not generic provider examples. Preserve them and report unavailable models/providers or unsupported thinking levels. Do not silently substitute another model. The relay must be configured before model discovery can validate them. Explain if the requested `enabledModels` scope hides other existing providers; keep their credentials and configuration intact. Do not copy machine-generated `lastChangelogVersion`.
+Keep these personal defaults and report missing models/providers or unsupported thinking levels; do not substitute another model. Preserve other provider credentials even though `enabledModels` scopes model selection to Sub2API. Do not copy machine-generated `lastChangelogVersion` or a local version pin.
 
-Back up and apply these fixed non-sensitive plugin configurations, creating parent directories as needed. On a fresh installation copy them verbatim; on an existing installation replace the listed template-owned values, recursively preserving unrelated object keys. JSON arrays from these files are complete requested values, not append-only lists.
+Back up and apply these fixed non-sensitive configurations. On a fresh installation copy them verbatim; otherwise replace template-owned values while recursively preserving unrelated object keys. Arrays are complete requested values, not append-only lists.
 
 | Fixed source | Effective target |
 | --- | --- |
 | [pi/open-tui.json](pi/open-tui.json) | `<agent-dir>/open-tui.json` |
 | [pi/pi-btw.json](pi/pi-btw.json) | `<agent-dir>/pi-btw.json` |
+| [pi/subagents.json](pi/subagents.json) | `<agent-dir>/subagents.json` |
 
-The BTW config intentionally selects `sub2api/gpt-6.1-sol`; verify it separately from the main model. No package-source patch, extra UI locale package, or local evidence bundle is required.
+The subagent settings are `fallbackSubagent: "none"`, `strictAgentFiles: true`, and `workflowsEnabled: true`: refuse unknown-role fallback, check agent files strictly at startup, and enable the lean engine's native workflows. Project `.pi/subagents.json` can override global fields; report effective differences. Restart Pi after configuration and role changes.
 
-Check supported configuration fields against installed package versions. If an upgrade changes the schema or removes a field, preserve the source template, report the incompatibility, and ask before changing its intended behavior.
+BTW selects `sub2api/gpt-6.1-sol` with `thinkingLevel: "medium"`; verify its selection separately from the main model. Keep the requested value and report any unsupported thinking level. No package-source patches or runtime evidence directories need migration.
 
 ## 5. Task Router for Pi
 
-Use https://github.com/gfgghgftgffg/task-router and read its current README and [Pi adapter documentation](https://github.com/gfgghgftgffg/task-router/blob/main/docs/pi.md). Install `pi-subagents` and `pi-web-access` first. Keep the source checkout and a working copy of [pi/routing.toml](pi/routing.toml) in a stable user-owned directory; this file reproduces the installed role-map models, thinking levels, selection hints, 30 requested concurrent children, and five repair follow-ups.
+Read the current [Task Router README](https://github.com/gfgghgftgffg/task-router) and [Pi adapter documentation](https://github.com/gfgghgftgffg/task-router/blob/main/docs/pi.md). Its executor is **`@ssk_dev/pi-subagents-lean` over `@tintinweb/pi-subagents`**. Install that facade and the lean web package first. Search roles now use `web_access` directly.
 
-The role map uses `deepseek-flash`, `gpt-6.1-sol`, and `gpt-6-astra`; omitted candidate providers inherit the active parent provider. Verify exact registered model IDs and per-model Pi thinking levels without paid generation. Do not infer that `max` means upstream `ultra`, rely on silent clamping, or replace unavailable candidates. If model evidence is missing, finish independent setup and report it explicitly as unverified/pending.
+Keep the source checkout and a working copy of [pi/routing.toml](pi/routing.toml) in a stable user-owned directory. It records the installed role-map models, selection hints, 30 requested concurrent children, and five repair follow-ups. Verify `deepseek-flash`, `gpt-6.1-sol`, and `gpt-6-astra` and their exact Pi thinking support without paid generation. Omitted providers inherit the actual parent provider; do not rely on fuzzy matching, provider fallback, or clamping.
 
-From the Task Router checkout, using the actual absolute configuration path:
+From the Router checkout, use the actual absolute configuration path:
 
 ```text
 npm ci
@@ -111,36 +111,35 @@ node cli.mjs install --host pi --config <absolute-routing-config>
 node cli.mjs install --host pi --config <absolute-routing-config> --apply
 ```
 
-Respect `PI_CODING_AGENT_DIR`, or pass the matching `--pi-home`. Retain installer backup, manifest, concurrency checks, and conflict protection. Do not delete manifests or hand-edit generated role files to bypass conflicts. Generate Pi's `agents/task-routing/*.md`, complete `skills/task-routing/` and references, and the single `pi-task-router` instruction block. Keep Codex and Pi homes and generated bundles separate. Future changes must use the same stable source config and rerun the installer.
+Respect `PI_CODING_AGENT_DIR`, or pass a matching `--pi-home`. Preserve installer backups, manifests, and conflict protections. The installer generates **flat `agents/tr_*.md`**, the complete `skills/task-routing/`, and one `pi-task-router` AGENTS block. It handles previously managed layouts through its manifest; do not bypass conflicts or hand-edit generated files. Keep Codex and Pi homes separate.
 
-`doctor` is static: without a credential-free verified Pi registry snapshot, model existence and thinking support remain `UNVERIFIED`. Supply `--catalog` only when its contents come from actual host metadata, not a fabricated capability list. In Pi, inspect `/subagents-doctor`, `/subagents-models`, and loaded `tr_*` capabilities without dispatching children. Check that background children can load both the provider and all four pi-web-access tools; parent tool availability alone does not prove this. Report Windows runner limitations as documented by the installed version.
+Generated roles deliberately do not pin model/thinking in frontmatter: the role map is authoritative. Every fresh direct launch must supply exact `model: "provider/id"` and separate `thinking` in the lean tool's JSON input; native workflow `agent()` uses `agentType`, `model`, and `effort`. Do not append a thinking suffix to the model ID. Project role overrides may change effective tools or lock model fields, so check them before dispatch. Replaced child prompts do not inherit AGENTS.md: the parent must supply applicable instructions in the brief.
 
-After installation restart Pi or `/reload`; activate routing only when explicitly requested with `/skill:task-routing`. Installation itself neither activates routing nor authorizes delegation. Pi's `-p` is print mode, **not** a Codex-style profile flag. The router's recommended orchestrator (`gpt-6-astra`, `medium`) does not change the normal Pi startup default (`gpt-6.1-sol`, `medium`). Report this intentional difference without changing either automatically.
+Use `/agents` and `subagent({ op: "help", input: "run" })` to inspect loaded types and schema without launching children. Use `pi --list-models` for available IDs; it does not prove thinking support. `doctor` is offline/static: without a verified credential-free registry snapshot, model availability and thinking remain `UNVERIFIED`. Supply `--catalog` only from actual host metadata, never a fabricated list. Confirm search-role selectors expose `ext:pi-web-access-lean/web_access` and prohibit shell/mutation tools; registration in the parent alone is not proof of child loading.
 
-Task Router uses **pi-subagents' own async workflow interface**, not the separately installed Dynamic Workflows engine. Keep both packages installed; do not substitute one execution protocol for the other. A workflow concurrency request is not a Pi-wide session concurrency setting and does not override stricter host limits.
+Task Router uses **lean's native `subagent` operation `workflow`**, not the separately installed Dynamic Workflows tool. Keep both packages; do not mix their execution or lifecycle APIs. Native workflows use `agent()/parallel()/pipeline()` and run in the background. Their host concurrency cap is independent of direct background agents' `subagents.json maxConcurrent` pool; the Router maximum does not override stricter limits.
+
+Restart Pi or `/reload` after installing roles, then activate only when requested with `/skill:task-routing`. Installation does not authorize delegation. Pi's `-p` is print mode, not a profile flag. The Router's recommended orchestrator (`gpt-6-astra`, `medium`) does not change the normal Pi default (`gpt-6.1-sol`, `medium`).
 
 ## 6. Fixed Global AGENTS.md
 
-Use [pi/AGENTS.md](pi/AGENTS.md), not the Codex [templates/AGENTS.md](templates/AGENTS.md). It is the actual Pi global instruction text, with only these machine-specific placeholders:
+Use [pi/AGENTS.md](pi/AGENTS.md), not the Codex [templates/AGENTS.md](templates/AGENTS.md). Substitute only these verified absolute paths:
 
-- `{{CONDA_PATH}}`: verified absolute Conda executable path.
-- `{{PYTHON_PATH}}`: verified absolute `codex` environment Python interpreter path.
+- `{{CONDA_PATH}}`: Conda executable.
+- `{{PYTHON_PATH}}`: the `codex` environment's Python interpreter.
 
-Locate the effective global context file under `<agent-dir>` and check `AGENTS.override.md` and other host context-file precedence. On a fresh installation render the template verbatim after installing dependencies and the router. On an existing installation back up and replace only the corresponding Python, proxy, and router entries, preserving unrelated instructions and exactly one Pi router block. Do not paraphrase, expand it into a Skill inventory, or import the Codex grill-me instruction.
+Check effective global context-file precedence, including `AGENTS.override.md`. On a fresh installation render the template verbatim after dependencies and Router installation. Otherwise back up and update corresponding quality, Python, proxy, Requirement Alignment, Workflow, and router entries, preserving unrelated instructions and exactly one Pi router block. Do not paraphrase or add a Skill inventory or automatic interview rule.
 
-Retain the router install manifest and its managed-block protections. The template's router block matches the inspected upstream Pi installer; if a future release changes that block, report and resolve the discrepancy instead of blindly replacing installer-managed policy. Do not render unresolved paths or claim `pypdf` is installed when the dependency step failed.
-
-The proxy instruction records `127.0.0.1:7897`; use it only when available and network access is failing or slow. Do not force permanent system-wide proxy settings on a different computer.
+Retain installer-managed block protections. If a newer Router changes its policy block, report the discrepancy rather than blindly overwriting it. Do not render unresolved paths or claim missing dependencies are installed. Use the recorded proxy `127.0.0.1:7897` only when available and network access is failing or slow; do not force a permanent system proxy.
 
 ## 7. Verification and Report
 
-1. Verify Pi/Node/Git and the actual shell; confirm the Conda interpreter location and successful `pypdf` import in `codex`.
-2. Verify all 9 package declarations, installed resources, and startup diagnostics. Distinguish installed from loaded and UI hooks from tested rendering.
-3. Verify the seven user Skills and four package-bundled Skills with their resources, without duplicate names. Confirm `grill-me` can find `grilling`, and `grill-me`, `grilling`, and `meeting-summary-html` have `disable-model-invocation: true`. Check explicit Skill commands after restart or `/reload`.
-4. Run the meeting preparation helper with a temporary text fixture locally; verify a transcript and no ASR use. Do not upload media or make paid requests.
-5. Parse every deployed JSON; compare template-owned values against the [pi/ sources](pi/README.md). Static checks are not proof of real UI rendering or model adherence to a Skill; do not make a paid model turn solely for setup.
-6. Verify saved model/UI defaults and the BTW model; distinguish registry metadata, authenticated connectivity, and live inference. Missing credentials or unverified model/thinking support must remain pending.
-7. Verify Router configuration, generated `tr_*` roles, contracts, references, and a single Pi router block. Distinguish static `doctor` success from background runtime support and real dispatch; do not activate routing or launch agents solely to test.
-8. Verify global instructions against the rendered Pi template, no unresolved placeholders, and preserved unrelated instructions. Recheck that rerunning unchanged setup produces no duplicate registrations or instruction blocks.
+1. Verify Pi, Node, Git, shell, and the `codex` interpreter with a successful `pypdf` import.
+2. Verify all 10 package declarations, resources, and startup diagnostics, including the lean `subagent`, `web_access`, and `todo` tools and `/retry status`. Check for duplicate facades; distinguish installed from loaded.
+3. Verify six user Skills and two package-bundled Skills with resources. Confirm `grilling` and `meeting-summary-html` have `disable-model-invocation: true`, and explicit Skill commands remain available.
+4. Run the meeting preparation helper on a temporary local text fixture without ASR or uploads.
+5. Parse deployed JSON and compare template-owned values with [pi/](pi/README.md). Verify subagent fallback/strict-file/workflow settings and both main-model and BTW `medium` thinking. Distinguish saved defaults, model metadata, and live operation.
+6. Verify flat Router roles, their references and tool selectors, exact model/thinking policies, and one Pi AGENTS block. Distinguish static `doctor` success from runtime support; do not dispatch children or paid inference merely for verification.
+7. Compare global instructions with the rendered template; check no unresolved placeholders, duplicate blocks, or automatic interview trigger. Preserve unrelated instructions and confirm repeated setup does not duplicate registrations.
 
-Report each item as newly installed, reused, pending configuration, or failed. Include effective paths, package versions, Skill/router source commits, saved defaults, meaningful differences from this snapshot, and any restart or activation required. Give specific blockers and next steps. Never describe partial or static-only verification as full operational success.
+Report each item as newly installed, reused, pending configuration, or failed, including effective paths, installed versions, source commits, saved defaults, and restart/activation requirements. Give concrete blockers and next steps. Do not describe static checks or partial setup as full operational success.

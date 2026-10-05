@@ -41,11 +41,8 @@ Respect `CODEX_HOME` and existing global Skill locations. Avoid registering the 
 | humanizer | https://github.com/blader/humanizer | Install the complete Skill and its referenced resources. |
 | taste-skill | https://github.com/Leonxlnx/taste-skill | Install the primary frontend design Skill, currently named `design-taste-frontend` in its frontmatter under `skills/taste-skill/`, with its referenced resources. Select this Skill explicitly; the repository also contains optional variants that are not required by this setup. |
 | grilling | https://github.com/mattpocock/skills/blob/main/docs/productivity/grilling.md | This URL is documentation. Locate the actual Skill, currently `skills/productivity/grilling/`. |
-| grill-me | https://github.com/mattpocock/skills/blob/main/docs/productivity/grill-me.md | This URL is documentation. Install the actual Skill, currently `skills/productivity/grill-me/`, together with its `grilling` dependency. |
 
-After downloading `grill-me`, `grilling`, and `meeting-summary-html`, add `disable-model-invocation: true` below `description` in each installed `SKILL.md`, inside the opening `---` block. If the field already exists, set it to `true`.
-
-Install `grill-me` and `grilling` as sibling directories so `../grilling/SKILL.md` resolves from `grill-me`.
+After downloading `grilling` and `meeting-summary-html`, add `disable-model-invocation: true` below `description` in each installed `SKILL.md`, inside the opening `---` block. If the field already exists, set it to `true`.
 
 ### Task Router
 
@@ -76,12 +73,11 @@ Use [templates/AGENTS.md](templates/AGENTS.md) as the fixed source of global ins
 After installing the dependencies and Task Router, substitute only these placeholders with verified absolute paths on this computer:
 
 - `{{CONDA_PATH}}` and `{{PYTHON_PATH}}`: the Conda executable and the `codex` environment's Python interpreter.
-- `{{GRILL_ME_PATH}}` and `{{GRILLING_PATH}}`: the respective installed `SKILL.md` files.
 - `{{TASK_ROUTER_CONFIG_PATH}}` and `{{TASK_ROUTER_SOURCE_PATH}}`: the installed router configuration and its stable source directory.
 
-Back up an existing global `AGENTS.md`. On a fresh installation, write the rendered template verbatim. On an existing installation, replace the corresponding router, Python, grill-me, and proxy entries with the template text, preserve unrelated user instructions, and remove redundant Skill inventory entries previously added by this setup. Keep exactly one router block, using the template's wording after the upstream installer finishes. Do not add a bootstrap managed block or descriptions of automatically discovered Skills.
+Back up an existing global `AGENTS.md`. On a fresh installation, write the rendered template verbatim. On an existing installation, update the corresponding quality, Python, proxy, Requirement Alignment, Workflow, and router entries from the template, removing previous automatic interview instructions and preserving unrelated user instructions. Remove redundant Skill inventory entries previously added by this setup. Keep exactly one router block, using the template's wording after the upstream installer finishes. Do not add a bootstrap managed block or descriptions of automatically discovered Skills.
 
-The grill-me instruction is intentional and must remain even when the Skill is automatically discovered: for a concrete development or completion task, invoke it when something remains unclear to resolve the uncertainty. Do not narrow its trigger to explicit requests for plan questioning.
+Keep `grilling` installed for explicit use; do not add an automatic interview trigger to global instructions.
 
 If a required installation fails, report the blocker rather than rendering unresolved paths or claiming missing dependencies are installed. Installation status belongs in the final report, not in the template.
 
@@ -111,10 +107,10 @@ These values are explicitly requested defaults and should replace existing value
 Verify the following after installation:
 
 1. Python runs from the `codex` environment and can import `pypdf`; confirm the interpreter's location.
-2. All seven project / Skill entries and required resources are present, `grill-me` can find `grilling`, and `grill-me`, `grilling`, and `meeting-summary-html` have `disable-model-invocation: true`.
+2. All six project / Skill entries and required resources are present, and `grilling` and `meeting-summary-html` have `disable-model-invocation: true`.
 3. Task Router's installation checks pass. Distinguish static configuration checks, host support, and live model verification; do not make paid model calls for this check.
 4. The meeting preparation helper processes a temporary text fixture locally without credentials or media uploads.
-5. Global instructions match `templates/AGENTS.md` after path substitution, contain no unresolved placeholders or duplicate router blocks, and preserve unrelated user instructions. Verify that the grill-me uncertainty trigger is retained and no automatic Skill inventory has been added.
+5. Global instructions match `templates/AGENTS.md` after path substitution, contain no unresolved placeholders or duplicate router blocks, and preserve unrelated user instructions. Verify no automatic interview trigger or automatic Skill inventory has been added.
 6. Global `config.toml` parses successfully, contains the requested settings without duplicate tables or keys, and preserves unrelated configuration. Confirm the Windows-only setting was applied only on Windows. Distinguish saved values from settings actually supported and effective in the current host.
 
 Report each item as newly installed, reused, pending configuration, or failed. Include key paths, sources, and installed versions or commit IDs. Explain any required new session, reload, or profile activation. For failures, give the specific cause and next step; do not report partial completion as full success.

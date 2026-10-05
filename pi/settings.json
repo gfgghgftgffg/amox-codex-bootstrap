@@ -4,11 +4,12 @@
     "npm:@narumitw/pi-btw",
     "npm:pi-open-tui",
     "npm:@narumitw/pi-statusline",
-    "npm:pi-web-access",
-    "npm:pi-subagents",
-    "npm:@juicesharp/rpiv-todo",
     "npm:@quintinshaw/pi-dynamic-workflows",
-    "npm:@heyhuynhgiabuu/pi-pretty"
+    "npm:@heyhuynhgiabuu/pi-pretty",
+    "npm:@ssk_dev/pi-web-access-lean",
+    "npm:@ssk_dev/rpiv-todo-lean",
+    "npm:@ssk_dev/pi-subagents-lean",
+    "npm:@monotykamary/pi-retry"
   ],
   "defaultProvider": "sub2api",
   "defaultModel": "gpt-6.1-sol",

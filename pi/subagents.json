@@ -1,0 +1,5 @@
+{
+  "fallbackSubagent": "none",
+  "strictAgentFiles": true,
+  "workflowsEnabled": true
+}
