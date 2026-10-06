@@ -48,7 +48,7 @@ Use `pi list` and startup diagnostics to distinguish configured, installed, and 
 
 ### Provider and Retry Setup
 
-- Sub2API needs the user's real relay configuration. Keep the provider name `sub2api`; prefer a supported token environment-variable reference such as `${SUB2API_TOKEN}`. Never copy this computer's credentials or relay URL into the repository. Request missing details privately; do not enable paid priority modes or hosted tools for setup.
+- Use [pi/sub2api.json](pi/sub2api.json) as the relay configuration template. Deploy it to `<agent-dir>/sub2api.json`, keeping `YOUR_API_KEY` as the placeholder unless a valid token already exists. Do not ask the user to send the key or fill it in yourself. In the final report, tell the user to edit the deployed file's `sub2api.token` themselves, giving its actual absolute path. Do not enable paid priority modes or hosted tools for setup.
 - The lean web package exposes one `web_access` tool for search/check/fetch/get/help. Follow its current provider setup, reusing credentials or supported keyless paths. Tool registration alone does not prove authenticated search works. Do not install optional video/browser tools unless requested.
 - `pi-retry` uses its defaults; this snapshot adds no `piRetry` overrides. It owns retries while loaded and disables the host's native retry scheduler. Check `/retry status` without intentionally failing model calls. Retries and output-limit auto-continuation may create additional billed turns; do not add another retry scheduler or test these with paid requests.
 
@@ -90,6 +90,9 @@ Back up and apply these fixed non-sensitive configurations. On a fresh installat
 | [pi/open-tui.json](pi/open-tui.json) | `<agent-dir>/open-tui.json` |
 | [pi/pi-btw.json](pi/pi-btw.json) | `<agent-dir>/pi-btw.json` |
 | [pi/subagents.json](pi/subagents.json) | `<agent-dir>/subagents.json` |
+| [pi/sub2api.json](pi/sub2api.json) | `<agent-dir>/sub2api.json`; preserve existing credentials, otherwise leave `YOUR_API_KEY` for the user to edit |
+
+For `sub2api.json`, `YOUR_API_KEY` is a placeholder, not a usable token. If it remains, report the provider as pending and tell the user to edit `sub2api.token` in the deployed file themselves. Continue independent setup steps without waiting for the key.
 
 Apply the full [pi/subagents.json](pi/subagents.json) configuration. It combines this computer's global defaults and project-scoped preferences for use as global defaults on the new computer. Key settings include `maxConcurrent: 50` for direct background agents, `showModel: true` to display their effective model/thinking, `fallbackSubagent: "none"`, `strictAgentFiles: true`, and `workflowsEnabled: true`. `maxConcurrentForeground: 0` and `defaultMaxTurns: 0` mean unlimited. Project `.pi/subagents.json` overrides global fields; report effective differences. Restart Pi after configuration and role changes.
 
@@ -137,7 +140,7 @@ Retain installer-managed block protections. If a newer Router changes its policy
 2. Verify all 9 package declarations, resources, and startup diagnostics, including the lean `subagent`, `web_access`, and `todo` tools and `/retry status`. Check for duplicate facades; distinguish installed from loaded.
 3. Verify six user Skills with resources. Confirm `grilling` and `meeting-summary-html` have `disable-model-invocation: true`, and explicit Skill commands remain available.
 4. Run the meeting preparation helper on a temporary local text fixture without ASR or uploads.
-5. Parse deployed JSON and compare template-owned values with [pi/](pi/README.md). Verify subagent concurrency, model display, fallback/strict-file/workflow settings and both main-model and BTW `medium` thinking. Distinguish saved defaults, model metadata, and live operation.
+5. Parse deployed JSON and compare template-owned values with [pi/](pi/README.md), excluding real credential values from comparisons and reports. If the Sub2API token remains `YOUR_API_KEY`, report it as pending and give the user the deployed file's absolute path and the `sub2api.token` field to edit; do not collect or populate the key. Verify subagent concurrency, model display, fallback/strict-file/workflow settings and both main-model and BTW `medium` thinking. Distinguish saved defaults, model metadata, and live operation.
 6. Verify flat Router roles, their references and tool selectors, exact model/thinking policies, and one Pi AGENTS block. Distinguish static `doctor` success from runtime support; do not dispatch children or paid inference merely for verification.
 7. Compare global instructions with the rendered template; check no unresolved placeholders, duplicate blocks, or automatic interview trigger. Preserve unrelated instructions and confirm repeated setup does not duplicate registrations.
 

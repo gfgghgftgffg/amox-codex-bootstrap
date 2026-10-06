@@ -50,6 +50,7 @@ You can also clone this repository and ask Pi to follow the local [setup_for_pi.
 - Six user Skills: `design-taste-frontend`, `humanizer`, `meeting-summary-html`, `shuorenhua`, `grilling`, and Pi's generated `task-routing`.
 - Fixed [Pi AGENTS.md](pi/AGENTS.md), [settings](pi/settings.json), router configuration, and non-sensitive plugin configurations in [pi/](pi/README.md).
 - Interview Skill: `grilling`, for explicit use only. Both setup documents include the required `disable-model-invocation: true` setting for it and `meeting-summary-html`.
+- Redacted [Sub2API configuration](pi/sub2api.json), preserving the relay URL and API mode with `YOUR_API_KEY` as the token placeholder.
 - Lean subagent configuration in [pi/subagents.json](pi/subagents.json), including 50 background slots, model display, strict role dispatch, and native workflows.
 
 Pi routing is opt-in through `/skill:task-routing` and uses `@ssk_dev/pi-subagents-lean`'s native workflow interface. Search roles use the lean `web_access` interface. Model availability and relay/search credentials must be checked on the new computer; no credentials or session data are stored here.

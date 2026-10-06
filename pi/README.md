@@ -6,6 +6,7 @@ These files capture the current personal Pi configuration without credentials or
 | --- | --- |
 | [AGENTS.md](AGENTS.md) | `<agent-dir>/AGENTS.md`, after substituting verified Conda/Python paths |
 | [settings.json](settings.json) | Merge into `<agent-dir>/settings.json`; omit machine-generated `lastChangelogVersion` |
+| [sub2api.json](sub2api.json) | `<agent-dir>/sub2api.json`; preserve existing credentials, otherwise leave `YOUR_API_KEY` and report the file path for the user to edit |
 | [open-tui.json](open-tui.json) | `<agent-dir>/open-tui.json` |
 | [pi-btw.json](pi-btw.json) | `<agent-dir>/pi-btw.json` |
 | [subagents.json](subagents.json) | `<agent-dir>/subagents.json`; 50 background slots, model display, strict role dispatch, and native lean workflows |
@@ -19,4 +20,4 @@ Skill installation and the required `disable-model-invocation: true` setting are
 
 Install the lean subagent/web/todo facades listed in settings without separately loading their upstream engines. Task Router uses flat `agents/tr_*.md` and the lean `web_access` tool; generate roles with its current Pi installer.
 
-Do not commit `sub2api.json`, `auth.json`, API keys, session logs, model caches, missions, installation manifests, backup history, or generated verification artifacts. Keep credentials local and configure them using the provider's documented secure method. No local package-source patches are included or required by this snapshot.
+Only the redacted [sub2api.json](sub2api.json) template belongs in this repository: its token must remain `YOUR_API_KEY`. Keep the populated local file, `auth.json`, actual API keys, session logs, model caches, missions, installation manifests, backup history, and generated verification artifacts out of Git. No local package-source patches are included or required by this snapshot.
